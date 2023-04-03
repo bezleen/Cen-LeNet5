@@ -1,0 +1,8 @@
+*.jpg
+**/data
+.venv
+.vscode
+.env*
+**/*.pyc
+__pycache__
+.env
