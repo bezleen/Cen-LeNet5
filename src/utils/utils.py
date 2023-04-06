@@ -3,17 +3,27 @@
 
 import csv
 import os
+import random
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pydash as py_
 from PIL import Image
 from bson.objectid import ObjectId
-import random
+
 from src.config import NUM_TO_LABEL
 
 
 def convert_csv_to_jpg():
+    if not os.path.exists("data"):
+        os.mkdir("data")
+    if not os.path.exists("data/dataset"):
+        os.mkdir("data/dataset")
+    if not os.path.exists("data/dataset/train"):
+        os.mkdir("data/dataset/train")
+    if not os.path.exists("data/dataset/val"):
+        os.mkdir("data/dataset/val")
+    if not os.path.exists("data/dataset/test"):
+        os.mkdir("data/dataset/test")
     # Download csv here: https://www.kaggle.com/datasets/sachinpatel21/az-handwritten-alphabets-in-csv-format then put it in folder "data" with the name is "hand_written.csv"
     train_val_test = ["train", "val", "test"]
     train_val_test_rate = (6, 2, 2)

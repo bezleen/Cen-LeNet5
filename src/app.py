@@ -3,12 +3,9 @@ import sys  # nopep8
 sys.path.append(".")  # nopep8
 # ----
 from src.extensions import train_dataset, val_dataset, test_dataset
+from src.utils.model_trainer import ModelTrainer
 
 
 if __name__ == '__main__':
-    print(train_dataset.__len__())
-    print(train_dataset.__getitem__(0))
-    print(val_dataset.__len__())
-    print(val_dataset.__getitem__(0))
-    print(test_dataset.__len__())
-    print(test_dataset.__getitem__(0))
+    model_trainer = ModelTrainer(train_dataset, val_dataset, test_dataset, batch_size=20, learning_rate=0.001, num_epoch=2)
+    model_trainer.train()
