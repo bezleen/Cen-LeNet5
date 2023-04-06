@@ -10,15 +10,24 @@ from src.utils.lenet5 import LeNet5
 
 
 class ModelTrainer(object):
-    def __init__(self, train_dataset, val_dataset, test_dataset, batch_size, learning_rate=0.001, num_epoch=2):
+    def __init__(self, train_dataset, val_dataset, test_dataset, batch_size, learning_rate=0.001, num_epoch=2, pretrained_path=None):
+        # note: use "pretrained_path" when you have a pretrained weights and want to continue training from that point
         self.batch_size = batch_size
         self.num_epoch = num_epoch
         self.train_dataloader = self.init_dataloader(train_dataset, self.batch_size, shuffle=True)
         self.val_dataloader = self.init_dataloader(val_dataset, self.batch_size, shuffle=True)
         self.test_dataloader = self.init_dataloader(test_dataset, self.batch_size, shuffle=True)
-        self.net = LeNet5()
+        self.net = self.init_network(pretrained_path=pretrained_path)
         self.loss_func = nn.CrossEntropyLoss()
         self.optimizer = optim.SGD(self.net.parameters(), lr=learning_rate, momentum=0.9)
+
+    def init_network(self, pretrained_path=None):
+        net = LeNet5()
+        if not pretrained_path:
+            return net
+        load_weights = torch.load(pretrained_path)
+        net.load_state_dict(load_weights)
+        return net
 
     def init_dataloader(self, dataset, batch_size, shuffle=True):
         dataloader = data.DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
