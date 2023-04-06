@@ -1,5 +1,5 @@
-# import sys  # nopep8
-# sys.path.append(".")  # nopep8
+import sys  # nopep8
+sys.path.append(".")  # nopep8
 
 import csv
 import os
