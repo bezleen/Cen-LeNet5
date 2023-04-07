@@ -70,6 +70,26 @@ class ModelTrainer(object):
         epoch_loss = epoch_loss / len(self.val_dataloader.dataset)
         epoch_accuracy = epoch_corrects.double() / len(self.val_dataloader.dataset)
         print("Validate: ", "epoch: ", epoch, ", loss: ", epoch_loss, "accuracy: ", epoch_accuracy.item() * 100, "%")
+        return
+
+    def test_step(self):
+        print("     Testing...")
+        self.net.eval()
+        epoch_loss = 0.0
+        epoch_corrects = 0.0
+        for inputs, labels in tqdm(self.test_dataloader):
+            self.optimizer.zero_grad()
+            forward_output = self.net(inputs)
+            loss = self.loss_func(forward_output, labels)
+            _, preds = torch.max(forward_output, 1)
+
+            epoch_loss += loss.item() * inputs.size(0)
+            epoch_corrects += torch.sum(preds == labels.data)
+
+        epoch_loss = epoch_loss / len(self.test_dataloader.dataset)
+        epoch_accuracy = epoch_corrects.double() / len(self.test_dataloader.dataset)
+        print("Test: ", " loss: ", epoch_loss, "accuracy: ", epoch_accuracy.item() * 100, "%")
+        return
 
     def save_model(self, save_path='data/model/weights_lenet5.pth'):
         if not os.path.exists("data"):
@@ -80,11 +100,12 @@ class ModelTrainer(object):
         torch.save(self.net.state_dict(), save_path)
         return
 
-    def train(self, save_path='data/model/weights_lenet5.pth'):
+    def train(self, save_path='data/model/weights_lenet5.pth', include_test=False):
         for epoch in range(1, self.num_epoch + 1):
             print(f"Epoch {epoch}/{self.num_epoch}")
             self.train_step(epoch)
             self.validate_step(epoch)
-
+        if include_test:
+            self.test_step()
         self.save_model(save_path)
         return

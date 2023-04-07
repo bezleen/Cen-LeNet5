@@ -12,7 +12,7 @@ if __name__ == '__main__':
         val_dataset,
         test_dataset,
         batch_size=20,
-        learning_rate=0.001,
-        num_epoch=2,
+        learning_rate=0.000001,
+        num_epoch=1,
         pretrained_path='data/model/weights_lenet5.pth')
-    model_trainer.train()
+    model_trainer.train(include_test=True)

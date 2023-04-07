@@ -32,3 +32,7 @@ The model_weight is saved in folder data/model with the name is "weights_lenet5.
 ```
 python3 predict/predict.py 
 ```
+# Current Accuracy
+```
+98%
+```
