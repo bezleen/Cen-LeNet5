@@ -1,3 +1,8 @@
+# --- Open cmt line bellow if run by cmd: python *.py
+# import sys  # nopep8
+# sys.path.append(".")  # nopep8
+# ----
+
 import torch
 
 
@@ -38,3 +43,15 @@ class LeNet5(torch.nn.Module):
         x = self.fc3(x)
 
         return x
+
+
+# if __name__ == "__main__":
+    # Export the network to a file
+    # net = torch.jit.script(LeNet5())
+    # torch.jit.save(net, 'my_lenet5_network.pt')
+    # or
+    # net.save("my_lenet5_network.pt")
+
+    # Load the network from a file
+    # net = torch.jit.load('my_lenet5_network.pt')
+    # print(net)

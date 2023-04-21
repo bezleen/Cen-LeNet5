@@ -4,6 +4,7 @@ sys.path.append(".")  # nopep8
 import csv
 import os
 import random
+import torch
 
 import numpy as np
 import pydash as py_
@@ -44,6 +45,18 @@ def convert_csv_to_jpg():
             img_name = os.path.join(folder_path, f"{str(ObjectId())}.jpg")
             img.save(img_name)
     return
+
+
+def export_network(net, file_path):
+    assert file_path.endswith(".pt")
+    net = torch.jit.script(net)
+    torch.jit.save(net, file_path)
+    return
+
+
+def load_network(file_path):
+    net = torch.jit.load(file_path)
+    return net
 
 
 if __name__ == '__main__':

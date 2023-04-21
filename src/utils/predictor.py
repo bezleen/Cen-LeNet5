@@ -22,7 +22,17 @@ class Predictor(object):
     def predict(self, img_path, show_img=False):
 
         img = Image.open(img_path)
+        img_np = np.asarray(img)
+        if img_np.shape[-1] != 1:
+            img = img.convert('L')
         img_transformed = self.img_transform(img, "test")
+        # print img_trans
+        # img_transformed_1 = img_transformed.numpy().transpose(1, 2, 0)
+        # img_transformed_1 = np.clip(img_transformed_1, 0, 1)
+        # print(img_transformed_1.shape)
+        # plt.imshow(img_transformed_1)
+        # plt.show()
+        #
         img_transformed = img_transformed.unsqueeze_(0)  # (channel, height, width) -> (1, channel, height, width)
         # predict
         output = self.model(img_transformed)
